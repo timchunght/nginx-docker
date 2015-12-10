@@ -16,7 +16,7 @@ RUN apt-get update && \
     apt-get build-dep nginx-full -y && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-ENV NGINX_VERSION 1.6.2
+ENV NGINX_VERSION 1.3.8
 
 # Nginx
 RUN cd /usr/src/ && wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && tar xf nginx-${NGINX_VERSION}.tar.gz && rm -f nginx-${NGINX_VERSION}.tar.gz
@@ -55,7 +55,8 @@ RUN cd /usr/src/nginx-${NGINX_VERSION} && ./configure \
         --add-module=${MODULESDIR}/nginx-cache-purge \
         --add-module=${MODULESDIR}/nginx-echo \
         --add-module=${MODULESDIR}/nginx-upstream-fair \
-        --add-module=${MODULESDIR}/nginx-upload-module
+        --add-module=${MODULESDIR}/nginx-upload-module \
+        --add-module=${MODULESDIR}/nginx-upload-progress
 # Other possible modules
 #--add-module=${MODULESDIR}/chunkin-nginx-module
 #--add-module=${MODULESDIR}/headers-more-nginx-module
@@ -64,7 +65,6 @@ RUN cd /usr/src/nginx-${NGINX_VERSION} && ./configure \
 #--add-module=${MODULESDIR}/nginx-development-kit
 #--add-module=${MODULESDIR}/nginx-http-push
 #--add-module=${MODULESDIR}/nginx-lua
-#--add-module=${MODULESDIR}/nginx-upload-progress
 
 RUN cd /usr/src/nginx-${NGINX_VERSION} && make && make install
 # Create the /var/lib/nginx directory (for temp paths)
