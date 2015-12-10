@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER Gert Van Gool <gert@vangool.mx>
+MAINTAINER Timothy Chung <timchunght@gmail.com>
 
 # Set the env variable DEBIAN_FRONTEND to noninteractive
 ENV DEBIAN_FRONTEND noninteractive
@@ -54,7 +54,8 @@ RUN cd /usr/src/nginx-${NGINX_VERSION} && ./configure \
         --add-module=${MODULESDIR}/nginx-auth-pam \
         --add-module=${MODULESDIR}/nginx-cache-purge \
         --add-module=${MODULESDIR}/nginx-echo \
-        --add-module=${MODULESDIR}/nginx-upstream-fair
+        --add-module=${MODULESDIR}/nginx-upstream-fair \
+        --add-module=${MODULESDIR}/nginx-upload-module
 # Other possible modules
 #--add-module=${MODULESDIR}/chunkin-nginx-module
 #--add-module=${MODULESDIR}/headers-more-nginx-module
@@ -63,7 +64,6 @@ RUN cd /usr/src/nginx-${NGINX_VERSION} && ./configure \
 #--add-module=${MODULESDIR}/nginx-development-kit
 #--add-module=${MODULESDIR}/nginx-http-push
 #--add-module=${MODULESDIR}/nginx-lua
-#--add-module=${MODULESDIR}/nginx-upload-module
 #--add-module=${MODULESDIR}/nginx-upload-progress
 
 RUN cd /usr/src/nginx-${NGINX_VERSION} && make && make install
