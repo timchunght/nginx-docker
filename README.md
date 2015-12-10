@@ -58,3 +58,45 @@ To get a minimal nginx version::
 	    --without-http_uwsgi_module \
 	    --add-module=$(MODULESDIR)/nginx-echo \
   RUN cd /usr/src/nginx-${NGINX_VERSION} && make && make install
+
+
+### nginx.conf for upload router
+
+	user  nginx;
+	worker_processes  1;
+
+	error_log  /var/log/nginx/error.log warn;
+	pid        /var/run/nginx.pid;
+
+
+	events {
+	    worker_connections  1024;
+	}
+
+
+	http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+    server {
+        listen         80;
+
+        client_max_body_size 500M;
+
+        location /upload {
+    	    proxy_pass_request_headers on;
+    	    proxy_pass_request_body on;
+    	    proxy_request_buffering off;
+    	    proxy_pass http://159.203.84.115/upload;
+        }
+
+
+
+
+    }
+	}
