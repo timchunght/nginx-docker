@@ -70,7 +70,7 @@ RUN cd /usr/src/nginx-${NGINX_VERSION} && make && make install
 # Create the /var/lib/nginx directory (for temp paths)
 RUN mkdir -p /var/lib/nginx
 
-#ADD nginx /etc/nginx/
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+ADD conf/nginx.conf /etc/nginx/nginx.conf
+# RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 EXPOSE 80 443
 CMD ["nginx"]
