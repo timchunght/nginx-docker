@@ -61,6 +61,11 @@ To get a minimal nginx version::
 
 
 ### nginx.conf for upload router
+Notes: these two configs do not seem to matter 
+
+	proxy_pass_request_headers on;
+  proxy_pass_request_body on;
+
 
 	user  nginx;
 	worker_processes  1;
