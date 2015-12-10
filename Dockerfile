@@ -67,8 +67,13 @@ RUN cd /usr/src/nginx-${NGINX_VERSION} && ./configure \
 #--add-module=${MODULESDIR}/nginx-lua
 
 RUN cd /usr/src/nginx-${NGINX_VERSION} && make && make install
+
 # Create the /var/lib/nginx directory (for temp paths)
 RUN mkdir -p /var/lib/nginx
+
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
 
 ADD conf/nginx.conf /etc/nginx/nginx.conf
 # RUN echo "daemon off;" >> /etc/nginx/nginx.conf
